@@ -1,13 +1,17 @@
-PRO ExportBandToPNG, data_dir, out_dir
+PRO ExportBandToPNG
 
   COMPILE_OPT IDL2, HIDDEN
   ON_ERROR, 2
 
   ; execute ENVI
   e = ENVI(/HEADLESS)
+  
+  ; get Landsat satellite metadata file and output directory
+  tiffDIR = DIALOG_PICKFILE(TITLE = 'Select GeoTIFF file', FILTER = '*.tif')
+  outDIR = DIALOG_PICKFILE(/DIRECTORY,TITLE = 'Select output directory')
 
   ; open dataset
-  infile = e.OpenRaster(data_dir)
+  infile = e.OpenRaster(tiffDIR)
 
   ; extract spectral bands
   task_1 = ENVITask('ExtractBandsFromRaster')
@@ -20,7 +24,7 @@ PRO ExportBandToPNG, data_dir, out_dir
     ; generate Filename
     task_2 = ENVITask('GenerateFilename')
     task_2.number = iterator_1_index
-    task_2.directory = out_dir
+    task_2.directory = outDIR
     task_2.prefix = 'band_'
     task_2.random = !FALSE
     task_2.Execute
