@@ -6,7 +6,7 @@ PRO ExportBandToPNG
   ; execute ENVI
   e = ENVI(/HEADLESS)
   
-  ; get Landsat satellite metadata file and output directory
+  ; get raster file
   tiffDIR = DIALOG_PICKFILE(TITLE = 'Select GeoTIFF file', FILTER = '*.tif')
   outDIR = DIALOG_PICKFILE(/DIRECTORY,TITLE = 'Select output directory')
 
